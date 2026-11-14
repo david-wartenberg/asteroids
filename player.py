@@ -1,4 +1,5 @@
 import pygame
+import sys
 from circleshape import CircleShape
 from constants import PLAYER_RADIUS, LINE_WIDTH, PLAYER_TURN_SPEED, PLAYER_SPEED
 
@@ -6,6 +7,7 @@ class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0.0
+        self.color = "white"
 
     # in the Player class
     def triangle(self) -> list[pygame.Vector2]:
@@ -17,7 +19,7 @@ class Player(CircleShape):
         return [a, b, c]
 
     def draw(self, screen: pygame.Surface) -> None:
-        pygame.draw.polygon(screen, "white", self.triangle(), LINE_WIDTH)
+        pygame.draw.polygon(screen, self.color, self.triangle(), LINE_WIDTH)
 
     def rotate(self, dt: float) -> None:
         self.rotation += PLAYER_TURN_SPEED * dt
@@ -36,6 +38,32 @@ class Player(CircleShape):
 
         if keys[pygame.K_s]:
             self.move(-dt)
+
+        if keys[pygame.K_ESCAPE]:
+            pygame.quit()
+            sys.exit()
+
+        if keys[pygame.K_q]:
+            pygame.quit()
+            sys.exit()
+
+        if keys[pygame.K_g]:
+            self.color = "green"
+
+        if keys[pygame.K_r]:
+            self.color = "red"
+
+        if keys[pygame.K_t]:
+            self.color = "teal"
+
+        if keys[pygame.K_e]:
+            self.color = "white"
+
+        if keys[pygame.K_p]:
+            self.color = "lightpink"
+
+        if keys[pygame.K_b]:
+            self.color = "royalblue"
 
     def move(self, dt: float) -> None:
         u_vector = pygame.Vector2(0,1)
