@@ -5,11 +5,13 @@ from logger import log_event
 import random
 
 class Asteroid(CircleShape):
+    
     def __init__(self, x: float, y: float, radius: float) -> None:
         super().__init__(x, y, radius)
+        self.color = COLORS[random.randint(0,6)]
 
     def draw(self, surface):
-        pygame.draw.circle(surface=surface,color="white",center=self.position,radius=self.radius,width=LINE_WIDTH)
+        pygame.draw.circle(surface=surface,color=self.color,center=self.position,radius=self.radius,width=LINE_WIDTH)
 
     def update(self, dt):
         self.position += self.velocity * dt

@@ -10,6 +10,7 @@ from shot import Shot
 def main():
     pygame.init()
     clock = pygame.time.Clock()
+    clock.tick(60)
     dt = 0.0
     
     updatable   = pygame.sprite.Group()
@@ -26,6 +27,9 @@ def main():
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT /2) 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE)
 
+
+    score = 0
+
     while True:
         log_state()
         for event in pygame.event.get():
@@ -38,14 +42,23 @@ def main():
             if a.collides_with(player):
                 log_event("player_hit")
                 print("Game Over!")
+                pygame.quit()
                 sys.exit()
             for s in shots:
                 if a.collides_with(s):
                     log_event("asteroid_shot")
+                    score += 1
                     a.split()
                     s.kill()
         for d in drawable:
             d.draw(screen)
+
+        if pygame.font:
+            font = pygame.font.Font(None, 64)
+            text = font.render(f"Score: {score}", True, "white")
+            textpos = text.get_rect(centerx=SCREEN_WIDTH / 2, y=10)
+            screen.blit(text, textpos)
+
         pygame.display.flip()
         dt = clock.tick(60) / 1000
         
